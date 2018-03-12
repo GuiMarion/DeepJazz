@@ -11,7 +11,7 @@ config:
   layers:
   - class_name: InputLayer
     config:
-      batch_input_shape: !!python/tuple [null, 16, 18]
+      batch_input_shape: !!python/tuple [null, 32, 142]
       dtype: float32
       name: left_features
       sparse: false
@@ -19,7 +19,7 @@ config:
     name: left_features
   - class_name: InputLayer
     config:
-      batch_input_shape: !!python/tuple [null, 16, 22]
+      batch_input_shape: !!python/tuple [null, 32, 22]
       dtype: float32
       name: left_metas
       sparse: false
@@ -27,7 +27,7 @@ config:
     name: left_metas
   - class_name: InputLayer
     config:
-      batch_input_shape: !!python/tuple [null, 16, 18]
+      batch_input_shape: !!python/tuple [null, 32, 142]
       dtype: float32
       name: right_features
       sparse: false
@@ -35,7 +35,7 @@ config:
     name: right_features
   - class_name: InputLayer
     config:
-      batch_input_shape: !!python/tuple [null, 16, 22]
+      batch_input_shape: !!python/tuple [null, 32, 22]
       dtype: float32
       name: right_metas
       sparse: false
@@ -55,7 +55,7 @@ config:
     name: concatenate_1
   - class_name: InputLayer
     config:
-      batch_input_shape: !!python/tuple [null, 0]
+      batch_input_shape: !!python/tuple [null, 75]
       dtype: float32
       name: central_features
       sparse: false
@@ -88,7 +88,7 @@ config:
         config:
           activation: linear
           activity_regularizer: null
-          batch_input_shape: !!python/tuple [null, 40]
+          batch_input_shape: !!python/tuple [null, 164]
           bias_constraint: null
           bias_initializer:
             class_name: Zeros
@@ -102,7 +102,7 @@ config:
           kernel_regularizer: null
           name: embedding_left
           trainable: true
-          units: 200
+          units: 256
           use_bias: true
       name: time_distributed_1
       trainable: true
@@ -131,7 +131,7 @@ config:
         config:
           activation: linear
           activity_regularizer: null
-          batch_input_shape: !!python/tuple [null, 40]
+          batch_input_shape: !!python/tuple [null, 164]
           bias_constraint: null
           bias_initializer:
             class_name: Zeros
@@ -145,7 +145,7 @@ config:
           kernel_regularizer: null
           name: embedding_right
           trainable: true
-          units: 200
+          units: 256
           use_bias: true
       name: time_distributed_2
       trainable: true
@@ -184,7 +184,7 @@ config:
       stateful: false
       trainable: true
       unit_forget_bias: true
-      units: 200
+      units: 256
       unroll: false
       use_bias: true
     inbound_nodes:
@@ -209,7 +209,7 @@ config:
       kernel_regularizer: null
       name: dense_1
       trainable: true
-      units: 200
+      units: 256
       use_bias: true
     inbound_nodes:
     - - - concatenate_3
@@ -246,7 +246,7 @@ config:
       stateful: false
       trainable: true
       unit_forget_bias: true
-      units: 200
+      units: 256
       unroll: false
       use_bias: true
     inbound_nodes:
@@ -284,7 +284,7 @@ config:
       stateful: false
       trainable: true
       unit_forget_bias: true
-      units: 200
+      units: 256
       unroll: false
       use_bias: true
     inbound_nodes:
@@ -309,7 +309,7 @@ config:
       kernel_regularizer: null
       name: dense_2
       trainable: true
-      units: 200
+      units: 256
       use_bias: true
     inbound_nodes:
     - - - dense_1
@@ -346,7 +346,7 @@ config:
       stateful: false
       trainable: true
       unit_forget_bias: true
-      units: 200
+      units: 256
       unroll: false
       use_bias: true
     inbound_nodes:
@@ -387,7 +387,7 @@ config:
       kernel_regularizer: null
       name: dense_3
       trainable: true
-      units: 200
+      units: 256
       use_bias: true
     inbound_nodes:
     - - - concatenate_4
@@ -411,7 +411,7 @@ config:
       kernel_regularizer: null
       name: pitch_prediction
       trainable: true
-      units: 18
+      units: 67
       use_bias: true
     inbound_nodes:
     - - - dense_3
