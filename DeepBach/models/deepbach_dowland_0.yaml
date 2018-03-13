@@ -11,7 +11,7 @@ config:
   layers:
   - class_name: InputLayer
     config:
-      batch_input_shape: !!python/tuple [null, 32, 142]
+      batch_input_shape: !!python/tuple [null, 32, 179]
       dtype: float32
       name: left_features
       sparse: false
@@ -27,7 +27,7 @@ config:
     name: left_metas
   - class_name: InputLayer
     config:
-      batch_input_shape: !!python/tuple [null, 32, 142]
+      batch_input_shape: !!python/tuple [null, 32, 179]
       dtype: float32
       name: right_features
       sparse: false
@@ -55,7 +55,7 @@ config:
     name: concatenate_1
   - class_name: InputLayer
     config:
-      batch_input_shape: !!python/tuple [null, 75]
+      batch_input_shape: !!python/tuple [null, 91]
       dtype: float32
       name: central_features
       sparse: false
@@ -88,7 +88,7 @@ config:
         config:
           activation: linear
           activity_regularizer: null
-          batch_input_shape: !!python/tuple [null, 164]
+          batch_input_shape: !!python/tuple [null, 201]
           bias_constraint: null
           bias_initializer:
             class_name: Zeros
@@ -131,7 +131,7 @@ config:
         config:
           activation: linear
           activity_regularizer: null
-          batch_input_shape: !!python/tuple [null, 164]
+          batch_input_shape: !!python/tuple [null, 201]
           bias_constraint: null
           bias_initializer:
             class_name: Zeros
@@ -411,7 +411,7 @@ config:
       kernel_regularizer: null
       name: pitch_prediction
       trainable: true
-      units: 67
+      units: 88
       use_bias: true
     inbound_nodes:
     - - - dense_3
