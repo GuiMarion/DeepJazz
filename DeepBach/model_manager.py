@@ -65,7 +65,9 @@ def generation(model_base_name, models, timesteps, melody=None,
         print("File " + output_file + " written")
 
     # display in editor
-    score.show()
+    #score.show()
+
+    pickle.dump(seq, open("../RESULTAT_GENERATION", 'wb'), pickle.HIGHEST_PROTOCOL)
     return seq
 
 
