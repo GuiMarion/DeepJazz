@@ -147,7 +147,6 @@ def main():
     train = args.train > 0
     num_epochs = args.train
     overwrite = args.overwrite
-
     if not os.path.exists('DeepBach/models/' + model_name + '.yaml'):
         create_models(model_name, create_new=overwrite,
                       num_units_lstm=num_units_lstm, num_dense=num_dense,
