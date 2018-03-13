@@ -25,7 +25,9 @@ def generation(model_base_name, models, timesteps, melody=None,
                sequence_length=160,
                output_file=None, pickled_dataset=BACH_DATASET):
     # Test by generating a sequence
-
+    print()
+    print("GENERATION BEGIN")
+    print()
     # todo -p parameter
     parallel = True
     if parallel:
@@ -201,6 +203,7 @@ def parallel_gibbs(models=None, melody=None, chorale_metas=None,
         open(pickled_dataset, 'rb'))
     num_pitches = list(map(len, index2notes))
     num_voices = len(voices_ids)
+    print("FICHIER : ", pickled_dataset)
     # load models if not
     if models is None:
         for expert_index in range(num_voices):
@@ -299,6 +302,10 @@ def parallel_gibbs(models=None, melody=None, chorale_metas=None,
                 for key in batch_input_features[0].keys()
             }
             # make all estimations
+            print("DEBUG")
+            print(voice_index)
+            print(len(models))
+            print("DEBUG")
             probas[voice_index] = models[voice_index].predict(
                 batch_input_features,
                 batch_size=batch_size_per_voice)
@@ -682,9 +689,7 @@ def load_models(model_base_name=None, num_voices=4):
     models = []
     for voice_index in range(num_voices):
         model_path_name = os.path.join(PACKAGE_DIR,
-                                  'models/' + model_base_name + '_' + str(
-                                      voice_index)
-                                  )
+                                  'models/' + model_base_name)
         model = load_model(model_path_name)
         model.compile(optimizer='adam',
                       loss={'pitch_prediction': 'categorical_crossentropy'
