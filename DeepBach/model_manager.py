@@ -52,9 +52,9 @@ def generation(model_base_name, models, timesteps, melody=None,
         raise NotImplementedError
 
     # convert
-    score = indexed_chorale_to_score(np.transpose(seq, axes=(1, 0)),
-                                     pickled_dataset=pickled_dataset
-                                     )
+    #score = indexed_chorale_to_score(np.transpose(seq, axes=(1, 0)),
+    #                                 pickled_dataset=pickled_dataset
+    #                                 )
 
     # save as MIDI file
     if output_file:
