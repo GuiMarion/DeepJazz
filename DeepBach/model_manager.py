@@ -55,8 +55,7 @@ def generation(model_base_name, models, timesteps, melody=None,
 
     # convert
     #score = indexed_chorale_to_score(np.transpose(seq, axes=(1, 0)),
-    #                                 pickled_dataset=pickled_dataset
-    #                                 )
+    #                                 pickled_dataset=pickled_dataset)
 
     # save as MIDI file
     if output_file:
@@ -69,7 +68,7 @@ def generation(model_base_name, models, timesteps, melody=None,
     # display in editor
     #score.show()
 
-    pickle.dump(seq, open("../RESULTAT_GENERATION", 'wb'), pickle.HIGHEST_PROTOCOL)
+    pickle.dump(seq, open("Results"+ pickled_dataset[pickled_dataset.rfind("/"):pickled_dataset.rfind(".")], 'wb'), pickle.HIGHEST_PROTOCOL)
     return seq
 
 
@@ -301,11 +300,15 @@ def parallel_gibbs(models=None, melody=None, chorale_metas=None,
                  batch_input_features])
                 for key in batch_input_features[0].keys()
             }
+
+            #for elem in batch_input_features:
+            #  print(batch_input_features[elem].shape)
             # make all estimations
-            print("DEBUG")
-            print(voice_index)
-            print(len(models))
-            print("DEBUG")
+            #L = batch_input_features["central_features"][0].tolist()[:91]
+            #L = np.array([L])
+
+            #del batch_input_features["central_features"]
+            #batch_input_features["central_features"] = L
             probas[voice_index] = models[voice_index].predict(
                 batch_input_features,
                 batch_size=batch_size_per_voice)
@@ -689,7 +692,8 @@ def load_models(model_base_name=None, num_voices=4):
     models = []
     for voice_index in range(num_voices):
         model_path_name = os.path.join(PACKAGE_DIR,
-                                  'models/' + model_base_name)
+                                  'models/' + model_base_name+ '_' + str(
+                                      voice_index))
         model = load_model(model_path_name)
         model.compile(optimizer='adam',
                       loss={'pitch_prediction': 'categorical_crossentropy'

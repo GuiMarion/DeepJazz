@@ -2,7 +2,7 @@
 Metadata classes
 """
 import numpy as np
-from functions import SUBDIVISION
+from MusicChordExtraction.functions import SUBDIVISION
 from music21 import analysis, stream
 
 

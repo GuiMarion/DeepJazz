@@ -9,6 +9,47 @@ from DeepBach.data_utils import part_to_inputs, initialization, BACH_DATASET, \
 from DeepBach.model_manager import generation, load_models, train_models, \
     create_models
 from DeepBach.metadata import *
+from MusicChordExtraction.Chords import *
+
+
+def PrintResults(name):
+    print("You are reading:", name)
+    seq = pickle.load(open("Results/"+name, 'rb'))
+    seq = [np.transpose(seq, axes=(1, 0))]
+    picklefile = "DeepBach/datasets/custom_dataset/"+ name + ".pickle"
+    X, X_metadatas, voice_ids, index2notes, note2indexes, metadatas = pickle.load(open(picklefile, 'rb'))
+
+
+    for elem in seq:
+        Compt = 0
+
+        for i in range(len(elem[0])):
+            if Compt == 16:
+                Compt = 0
+                print()
+                for e in range(i-16, i):
+                    print(index2notes[1][int(elem[1][e])], end="")
+                print()
+                for e in range(i-16, i):
+                    print(index2notes[2][int(elem[2][e])], end="")
+                print()
+                print()
+
+            print(index2notes[0][int(elem[0][i])].replace("-","b"), end="")
+            Compt+=1
+        print()
+        for e in range(len(elem[0])-16, len(elem[0])):
+            print(index2notes[1][int(elem[1][e])], end="")
+        print()
+        for e in range(len(elem[0])-16, len(elem[0])):
+            print(index2notes[2][int(elem[2][e])], end="")
+        
+
+        print()
+        if (elem is not X[-1]):
+            print()
+            print("Another One")
+        print()
 
 
 def main():
@@ -91,15 +132,16 @@ def main():
     else:
         dataset_path = None
         pickled_dataset = BACH_DATASET
+    print(pickled_dataset)
     if not os.path.exists(pickled_dataset):
         initialization(dataset_path,
                        metadatas=metadatas,
                        voice_ids=[0])
-
     # load dataset
     X, X_metadatas, voice_ids, index2notes, note2indexes, metadatas = pickle.load(
         open(pickled_dataset,
              'rb'))
+
     NUM_VOICES = len(voice_ids
                      )
     num_pitches = list(map(len, index2notes))
@@ -152,30 +194,31 @@ def main():
                       num_units_lstm=num_units_lstm, num_dense=num_dense,
                       pickled_dataset=pickled_dataset, num_voices=num_voices,
                       metadatas=metadatas, timesteps=timesteps)
-    if train:
-        models = train_models(model_name=model_name,
-                              steps_per_epoch=steps_per_epoch,
-                              num_epochs=num_epochs,
-                              validation_steps=validation_steps,
-                              timesteps=timesteps,
-                              pickled_dataset=pickled_dataset,
-                              num_voices=NUM_VOICES, metadatas=metadatas,
-                              batch_size=batch_size)
-    else:
-        models = load_models(model_name, num_voices=NUM_VOICES)
-        temperature = 1.
-        timesteps = int(models[0].input[0]._keras_shape[1])
+    
+    models = train_models(model_name=model_name,
+                          steps_per_epoch=steps_per_epoch,
+                          num_epochs=num_epochs,
+                          validation_steps=validation_steps,
+                          timesteps=timesteps,
+                          pickled_dataset=pickled_dataset,
+                          num_voices=NUM_VOICES, metadatas=metadatas,
+                          batch_size=batch_size)
 
-        seq = generation(model_base_name=model_name, models=models,
-                         timesteps=timesteps,
-                         melody=melody, initial_seq=None, temperature=temperature,
-                         chorale_metas=chorale_metas, parallel=parallel,
-                         batch_size_per_voice=batch_size_per_voice,
-                         num_iterations=num_iterations,
-                         sequence_length=sequence_length,
-                         output_file=output_file,
-                         pickled_dataset=pickled_dataset)
+    models = load_models(model_name, num_voices=NUM_VOICES)
+    temperature = 1.
+    timesteps = int(models[0].input[0]._keras_shape[1])
 
+    seq = generation(model_base_name=model_name, models=models,
+                     timesteps=timesteps,
+                     melody=melody, initial_seq=None, temperature=temperature,
+                     chorale_metas=chorale_metas, parallel=parallel,
+                     batch_size_per_voice=batch_size_per_voice,
+                     num_iterations=num_iterations,
+                     sequence_length=sequence_length,
+                     output_file=output_file,
+                     pickled_dataset=pickled_dataset)
+
+    PrintResults(pickled_dataset[pickled_dataset.rfind("/")+1:pickled_dataset.rfind(".")])
 
 if __name__ == '__main__':
     main()
