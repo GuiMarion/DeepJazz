@@ -68,7 +68,7 @@ def generation(model_base_name, models, timesteps, melody=None,
     # display in editor
     #score.show()
 
-    pickle.dump(seq, open("Results"+ pickled_dataset[pickled_dataset.rfind("/"):pickled_dataset.rfind(".")], 'wb'), pickle.HIGHEST_PROTOCOL)
+    pickle.dump(seq, open("../Results"+ pickled_dataset[pickled_dataset.rfind("/"):pickled_dataset.rfind(".")], 'wb'), pickle.HIGHEST_PROTOCOL)
     return seq
 
 
