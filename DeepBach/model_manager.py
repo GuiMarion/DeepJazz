@@ -31,29 +31,28 @@ def generation(model_base_name, models, timesteps, melody=None,
     # todo -p parameter
     parallel = True
 
-    seq = ""
-    # if parallel:
-    #     seq = parallel_gibbs(models=models, model_base_name=model_base_name,
-    #                          melody=melody, chorale_metas=chorale_metas,
-    #                          timesteps=timesteps,
-    #                          num_iterations=num_iterations,
-    #                          sequence_length=sequence_length,
-    #                          temperature=temperature,
-    #                          initial_seq=initial_seq,
-    #                          batch_size_per_voice=batch_size_per_voice,
-    #                          parallel_updates=True,
-    #                          pickled_dataset=pickled_dataset)
-    # else:
-    #     # todo refactor
-    #     print('gibbs function must be refactored!')
-    #     # seq = gibbs(models=models, model_base_name=model_base_name,
-    #     #             timesteps=timesteps,
-    #     #             melody=melody, fermatas_melody=fermatas_melody,
-    #     #             num_iterations=num_iterations, sequence_length=sequence_length,
-    #     #             temperature=temperature,
-    #     #             initial_seq=initial_seq,
-    #     #             pickled_dataset=pickled_dataset)
-    #     raise NotImplementedError
+    if parallel:
+        seq = parallel_gibbs(models=models, model_base_name=model_base_name,
+                             melody=melody, chorale_metas=chorale_metas,
+                             timesteps=timesteps,
+                             num_iterations=num_iterations,
+                             sequence_length=sequence_length,
+                             temperature=temperature,
+                             initial_seq=initial_seq,
+                             batch_size_per_voice=batch_size_per_voice,
+                             parallel_updates=True,
+                             pickled_dataset=pickled_dataset)
+    else:
+        # todo refactor
+        print('gibbs function must be refactored!')
+        # seq = gibbs(models=models, model_base_name=model_base_name,
+        #             timesteps=timesteps,
+        #             melody=melody, fermatas_melody=fermatas_melody,
+        #             num_iterations=num_iterations, sequence_length=sequence_length,
+        #             temperature=temperature,
+        #             initial_seq=initial_seq,
+        #             pickled_dataset=pickled_dataset)
+        raise NotImplementedError
 
     # convert
     #score = indexed_chorale_to_score(np.transpose(seq, axes=(1, 0)),
