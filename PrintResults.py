@@ -12,6 +12,7 @@ def main(name):
     picklefile = "DeepBach/datasets/custom_dataset/"+ name + ".pickle"
     X, X_metadatas, voice_ids, index2notes, note2indexes, metadatas = pickle.load(open(picklefile, 'rb'))
 
+    print(seq)
 
     for elem in seq:
         Compt = 0

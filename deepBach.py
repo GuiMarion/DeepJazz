@@ -30,9 +30,6 @@ def PrintResults(name):
                 for e in range(i-16, i):
                     print(index2notes[1][int(elem[1][e])], end="")
                 print()
-                for e in range(i-16, i):
-                    print(index2notes[2][int(elem[2][e])], end="")
-                print()
                 print()
 
             print(index2notes[0][int(elem[0][i])].replace("-","b"), end="")
@@ -41,14 +38,6 @@ def PrintResults(name):
         for e in range(len(elem[0])-16, len(elem[0])):
             print(index2notes[1][int(elem[1][e])], end="")
         print()
-        for e in range(len(elem[0])-16, len(elem[0])):
-            print(index2notes[2][int(elem[2][e])], end="")
-        
-
-        print()
-        if (elem is not X[-1]):
-            print()
-            print("Another One")
         print()
 
 
