@@ -31,16 +31,16 @@ def generation(model_base_name, models, timesteps, melody=None,
     # todo -p parameter
     parallel = True
     if parallel:
-        seq = parallel_gibbs(models=models, model_base_name=model_base_name,
-                             melody=melody, chorale_metas=chorale_metas,
-                             timesteps=timesteps,
-                             num_iterations=num_iterations,
-                             sequence_length=sequence_length,
-                             temperature=temperature,
-                             initial_seq=initial_seq,
-                             batch_size_per_voice=batch_size_per_voice,
-                             parallel_updates=True,
-                             pickled_dataset=pickled_dataset)
+        # seq = parallel_gibbs(models=models, model_base_name=model_base_name,
+        #                      melody=melody, chorale_metas=chorale_metas,
+        #                      timesteps=timesteps,
+        #                      num_iterations=num_iterations,
+        #                      sequence_length=sequence_length,
+        #                      temperature=temperature,
+        #                      initial_seq=initial_seq,
+        #                      batch_size_per_voice=batch_size_per_voice,
+        #                      parallel_updates=True,
+        #                      pickled_dataset=pickled_dataset)
     else:
         # todo refactor
         print('gibbs function must be refactored!')
