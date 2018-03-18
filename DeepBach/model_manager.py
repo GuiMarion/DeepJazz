@@ -30,6 +30,8 @@ def generation(model_base_name, models, timesteps, melody=None,
     print()
     # todo -p parameter
     parallel = True
+
+    seq = []
     # if parallel:
     #     seq = parallel_gibbs(models=models, model_base_name=model_base_name,
     #                          melody=melody, chorale_metas=chorale_metas,
