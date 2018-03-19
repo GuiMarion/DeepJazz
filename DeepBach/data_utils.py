@@ -560,42 +560,6 @@ def seqs_to_stream(seqs):
     return score
 
 
-def indexed_chorale_to_score(seq, pickled_dataset):
-    """
-
-    :param seq: voice major
-    :param pickled_dataset:
-    :return:
-    """
-    _, _, _, index2notes, note2indexes, _ = pickle.load(
-        open(pickled_dataset, 'rb'))
-    num_pitches = list(map(len, index2notes))
-    slur_indexes = list(map(lambda d: d[SLUR_SYMBOL], note2indexes))
-
-    score = stream.Score()
-    for voice_index, v in enumerate(seq):
-        part = stream.Part(id='part' + str(voice_index))
-        dur = 0
-        f = note.Rest()
-        for k, n in enumerate(v):
-            # if it is a played note
-            if not n == slur_indexes[voice_index]:
-                # add previous note
-                if dur > 0:
-                    f.duration = duration.Duration(dur / SUBDIVISION)
-                    part.append(f)
-
-                dur = 1
-                f = standard_note(index2notes[voice_index][n])
-            else:
-                dur += 1
-        # add last note
-        f.duration = duration.Duration(dur / SUBDIVISION)
-        part.append(f)
-        score.insert(part)
-    return score
-
-
 def create_index_dicts(chorale_list, voice_ids=voice_ids_default):
     """
     Returns two lists (index2notes, note2indexes) of size num_voices containing dictionaries
