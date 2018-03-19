@@ -49,18 +49,184 @@ def indexed_chorale_to_score(seq, pickled_dataset):
         part.append(f)
         score.insert(part)
     return score
+    
+
+def getIntervalsFromChordColor(color): 
+
+    if color == "maj" :
+        interval =  [4,7]
+
+    elif color == "min" :
+        interval =  [3,7]
+
+    elif color == "min#5" :
+        interval =  [3,8]
+
+    elif color == "dim" :
+        interval =  [3,6]
+
+    elif color == "+" :
+        interval =  [4,8]
+
+    elif color == "min7" :
+        interval =  [3,7,10]
+
+    elif color == "min(maj7)" :
+        interval =  [3,7,11]
+
+    elif color == "7" :
+        interval =  [4,7,10]
+
+    elif color == "7sus4" :
+        interval =  [5,7,10]
+
+    elif color == "7sus4" :
+        interval =  [4,7,17]
+
+    elif color == "7b5" :
+        interval =  [4,6,10]
+
+    elif color == "7" :
+        interval =  [4,10]
+
+    elif color == "maj7" :
+        interval =  [4,7,11]
+
+    elif color == "m7b5" :
+        interval =  [3,6,10]
+
+    elif color == "dim7" :
+        interval =  [3,6,9]
+
+    elif color == "7+" :
+        interval =  [4,8,10]
+
+    elif color == "min6" :
+        interval =  [3,7,9]
+
+    elif color == "6" :
+        interval =  [4,7,9]
+
+    elif color == "7b9" :
+        interval =  [4,7,10,13]
+
+    elif color == "7b5b9" :
+        interval =  [4,6,10,13]
+
+    elif color == "9" :
+        interval =  [4,7,10,14]
+
+    elif color == "sus49" :
+        interval =  [5,7,14]
+
+    elif color == "m9" :
+        interval =  [3,7,10,14]
+
+    elif color == "maj9" :
+        interval =  [4,7,11,14]
+
+    elif color == "#59" :
+        interval =  [4,8,10,14]
+
+    elif color == "7#5b9" :
+        interval =  [4,8,10,13]
+
+    elif color == "#5#9" :
+        interval =  [4,8,10,15]
+
+    elif color == "#59" :
+        interval =  [4,8,14]
+
+    elif color == "#5#9" :
+        interval =  [4,8,15]
+
+    elif color == "7#9" :
+        interval =  [4,7,10,15]
+
+    elif color == "713" :
+        interval =  [4,7,10,21]
+
+    elif color == "7b5#9" :
+        interval =  [4,6,10,15]
+
+    elif color == "min11" :
+        interval =  [3,7,10,14,17]
+
+    elif color == "7alt" :
+        interval =  [3,6,10,13,16,20]
+
+    elif color == "13" :
+        interval =  [4,7,10,14,21]
+
+    elif color == "13" :
+        interval =  [4,7,10,14,17,21]
+
+    elif color == "69" :
+        interval =  [4,7,9,14]
+
+    elif color == "min69" :
+        interval =  [3,7,9,14]
+
+    elif color == "11" :
+        interval =  [4,7,10,14,17]
+
+    elif color == "9#11" :
+        interval =  [4,7,10,14,18]
+
+    elif color == "7#11" :
+        interval =  [4,7,10,18]
+
+    elif color == "7sus" :
+        interval =  [4,7,10,17]
+
+    elif color == "7sus43" :
+        interval =  [4,57,10]
+
+    elif color == "maj7b5":
+        interval = [4,7,11,18]
+
+    else :
+        raise NameError("Chord Undifined : "+ color)
+
+    return interval
+
+
+def notesFromChord(chord):
+
+    if chord[1] == "-" or chord[1] == "b" or chord[1] == "#":
+        root = chord[0:2]
+        color = chord[2:]
+    else : 
+        root = chord[0:1]
+        color = chord[1:]
+
+    root = root.replace("b", "-")
+
+    n = pitch.Pitch(root+'4')
+    num = n.midi
+
+    Notes = [num]
+
+    for elem in getIntervalsFromChordColor(color):
+        Notes.append(num+int(elem))
+
+    for i in range(len(Notes)):
+        # We can use .name in place of .nameWithOctave in order to only have the name of the notes
+        Notes[i] = note.Note(Notes[i]).nameWithOctave
+
+    return Notes
 
 
 def chordsToVoices(seq):
 
 
-
 def seqtoMidi(name):
 
     pickled_dataset = 'DeepBahc/datasets/custom_dataset' + name + '.pickle'
-    pickle.load(open("Results" + name, 'rb'))
+    seq = pickle.load(open("Results" + name, 'rb'))
 
-    seq = chordsToVoices(seq)
+    #seq = chordsToVoices(seq)
+
     # convert
     score = indexed_chorale_to_score(np.transpose(seq, axes=(1, 0)),
                                      pickled_dataset=pickled_dataset)
@@ -73,8 +239,3 @@ def seqtoMidi(name):
     mf.close()
     print("File " + output_file + " written")
 
-    # display in editor
-    #score.show()
-
-    pickle.dump(seq, open("Results"+ pickled_dataset[pickled_dataset.rfind("/"):pickled_dataset.rfind(".")], 'wb'), pickle.HIGHEST_PROTOCOL)
-    
