@@ -4,15 +4,33 @@ Created on 15 mars 2016
 @author: Gaetan Hadjeres
 """
 import os
+import sys
 import pickle
+import numpy as np
 
-from music21 import midi
+from music21 import midi, note
+from music21 import corpus, converter, stream, duration, interval
 
-from Deepbach.data_utils import generator_from_raw_dataset, BACH_DATASET, \
-    all_features, \
-    indexed_chorale_to_score, START_SYMBOL, END_SYMBOL, all_metadatas, \
-    standard_note, SOP, BASS, PACKAGE_DIR
-from .metadata import *
+
+from DeepBach.data_utils import SLUR_SYMBOL, START_SYMBOL, END_SYMBOL, all_metadatas
+from DeepBach.metadata import *
+
+
+
+# TODO : Change indexed_chorale_to_score, in order to transform chords names in music21 chord object 
+# and add it to the score in order to put it in the exported midi file
+
+def standard_note(note_or_rest_string):
+    if note_or_rest_string == 'rest':
+        return note.Rest()
+    # treat other additional symbols as rests
+    if note_or_rest_string == START_SYMBOL or note_or_rest_string == END_SYMBOL:
+        return note.Rest()
+    if note_or_rest_string == SLUR_SYMBOL:
+        print('Warning: SLUR_SYMBOL used in standard_note')
+        return note.Rest()
+    else:
+        return note.Note(note_or_rest_string)
 
 
 def indexed_chorale_to_score(seq, pickled_dataset):
@@ -217,13 +235,13 @@ def notesFromChord(chord):
     return Notes
 
 
-def chordsToVoices(seq):
+#def chordsToVoices(seq):
 
 
 def seqtoMidi(name):
 
-    pickled_dataset = 'DeepBahc/datasets/custom_dataset' + name + '.pickle'
-    seq = pickle.load(open("Results" + name, 'rb'))
+    pickled_dataset = 'DeepBach/datasets/custom_dataset/' + name + '.pickle'
+    seq = pickle.load(open("Results/" + name, 'rb'))
 
     #seq = chordsToVoices(seq)
 
@@ -238,4 +256,11 @@ def seqtoMidi(name):
     mf.write()
     mf.close()
     print("File " + output_file + " written")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        seqtoMidi(sys.argv[1])
+    else:
+        print("Usage: Python3 PrintResults <file>")
 
