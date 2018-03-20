@@ -8,7 +8,7 @@ import sys
 import pickle
 import numpy as np
 
-from music21 import midi, note
+from music21 import midi, note, chord, pitch
 from music21 import corpus, converter, stream, duration, interval
 
 
@@ -59,7 +59,13 @@ def indexed_chorale_to_score(seq, pickled_dataset):
                     part.append(f)
 
                 dur = 1
-                f = standard_note(index2notes[voice_index][n])
+                if voice_index == 0:
+                    f = standard_note(index2notes[voice_index][n])
+                elif voice_index == 1:
+                    f = chord.Chord(notesFromChord(index2notes[voice_index][n]))
+                else :
+                    raise "We can only work with 2 voices"
+
             else:
                 dur += 1
         # add last note
@@ -256,7 +262,6 @@ def seqtoMidi(name):
     mf.write()
     mf.close()
     print("File " + output_file + " written")
-
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:

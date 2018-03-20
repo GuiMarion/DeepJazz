@@ -10,6 +10,7 @@ from DeepBach.model_manager import generation, load_models, train_models, \
     create_models
 from DeepBach.metadata import *
 from MusicChordExtraction.Chords import *
+from ToMidi import *
 
 
 def PrintResults(name):
@@ -208,6 +209,7 @@ def main():
                      pickled_dataset=pickled_dataset)
 
     PrintResults(pickled_dataset[pickled_dataset.rfind("/")+1:pickled_dataset.rfind(".")])
+    seqtoMidi(pickled_dataset[pickled_dataset.rfind("/")+1:pickled_dataset.rfind(".")])
 
 if __name__ == '__main__':
     main()
