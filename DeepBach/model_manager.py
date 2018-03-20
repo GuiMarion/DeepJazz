@@ -11,8 +11,7 @@ from music21 import midi
 from tqdm import tqdm
 
 from .data_utils import generator_from_raw_dataset, BACH_DATASET, \
-    all_features, \
-    indexed_chorale_to_score, START_SYMBOL, END_SYMBOL, all_metadatas, \
+    all_features, START_SYMBOL, END_SYMBOL, all_metadatas, \
     standard_note, SOP, BASS, PACKAGE_DIR
 from .metadata import *
 from .models_zoo import deepBach, deepbach_skip_connections
