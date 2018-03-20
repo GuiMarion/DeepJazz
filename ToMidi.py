@@ -59,7 +59,7 @@ def indexed_chorale_to_score(seq, pickled_dataset):
                     part.append(f)
 
                 dur = 1
-                if voice_index == 0:
+                if voice_index == 0 or index2notes[voice_index][n] == "rest":
                     f = standard_note(index2notes[voice_index][n])
                 elif voice_index == 1:
                     f = chord.Chord(notesFromChord(index2notes[voice_index][n]))
@@ -217,7 +217,7 @@ def getIntervalsFromChordColor(color):
 
 def notesFromChord(chord):
 
-    if chord[1] == "-" or chord[1] == "b" or chord[1] == "#":
+    if chord[1] == "-" or chord[1] == "b" or (chord[1] == "#" and chord[2] != '5'):
         root = chord[0:2]
         color = chord[2:]
     else : 
