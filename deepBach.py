@@ -98,6 +98,9 @@ def main():
     parser.add_argument('-r', '--reharmonization', nargs='?',
                         help='reharmonization of a melody from the corpus identified by its id',
                         type=int)
+    parser.add_argument('--gen', nargs='?',
+                        help='generation only',
+                        type=int)
     args = parser.parse_args()
     print(args)
 
@@ -185,14 +188,15 @@ def main():
                       pickled_dataset=pickled_dataset, num_voices=num_voices,
                       metadatas=metadatas, timesteps=timesteps)
     
-    models = train_models(model_name=model_name,
-                          steps_per_epoch=steps_per_epoch,
-                          num_epochs=num_epochs,
-                          validation_steps=validation_steps,
-                          timesteps=timesteps,
-                          pickled_dataset=pickled_dataset,
-                          num_voices=NUM_VOICES, metadatas=metadatas,
-                          batch_size=batch_size)
+    if gen != 1:
+        models = train_models(model_name=model_name,
+                              steps_per_epoch=steps_per_epoch,
+                              num_epochs=num_epochs,
+                              validation_steps=validation_steps,
+                              timesteps=timesteps,
+                              pickled_dataset=pickled_dataset,
+                              num_voices=NUM_VOICES, metadatas=metadatas,
+                              batch_size=batch_size)
 
     models = load_models(model_name, num_voices=NUM_VOICES)
     temperature = 1.
