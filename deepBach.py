@@ -188,7 +188,7 @@ def main():
                       pickled_dataset=pickled_dataset, num_voices=num_voices,
                       metadatas=metadatas, timesteps=timesteps)
     
-    if gen != 1:
+    if args.gen != 1:
         models = train_models(model_name=model_name,
                               steps_per_epoch=steps_per_epoch,
                               num_epochs=num_epochs,
